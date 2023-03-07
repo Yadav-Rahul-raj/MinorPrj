@@ -1,0 +1,2 @@
+# MinorPrj
+Minor project
