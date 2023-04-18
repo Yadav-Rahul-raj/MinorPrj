@@ -1,6 +1,6 @@
 import React,{useState, useMemo, useEffect} from 'react';
 import { DataGrid , gridClasses} from '@mui/x-data-grid';
-import { useGetManageFacultysQuery } from 'state/api';
+import { useGetAssignMentorsQuery } from 'state/api';
 import FlexBetween from 'components/FlexBetween';
 import DataGridCustomToolbar from 'components/DataGridCustomToolbar';
 import {Box,
@@ -12,7 +12,7 @@ import Header from 'components/Header';
 import Popup from 'components/Popup';
 import Form from 'components/ManageFacultyForm';
 
-const ManageFacultys = () => {
+const AssignMentors = () => {
   const theme = useTheme();
   const [hover, setHover] = useState(false);
   const isNonMobile = useMediaQuery("(min-width: 1000px");
@@ -25,7 +25,7 @@ const ManageFacultys = () => {
     const [search, setSearch] = useState("");
   
     const [searchInput, setSearchInput] = useState("");
-    const {data, isLoading} = useGetManageFacultysQuery({
+    const {data, isLoading} = useGetAssignMentorsQuery({
         page,
         pageSize,
         sort: JSON.stringify(sort),
@@ -127,7 +127,7 @@ const ManageFacultys = () => {
   return (
     <Box m = "1.5rem 2.5rem">
       <FlexBetween>
-        <Header title="MANAGE FACULTY" subtitle="Mentor assigned with project" />
+        <Header title="ASSIGN MENTOR" subtitle="Mentor assigned with project" />
 
         <Box>
           <Button className='createbtn'
@@ -227,4 +227,4 @@ const ManageFacultys = () => {
   );
 };
 
-export default ManageFacultys;
+export default AssignMentors;

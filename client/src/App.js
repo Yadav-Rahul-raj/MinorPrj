@@ -8,28 +8,45 @@ import { useSelector } from "react-redux";
 import {themeSettings} from "theme";
 import Announcement from "scenes/announcement";
 import ManageFacultys from "scenes/manageFaculty";
-
+import AssignMentors from "scenes/assignMentor";
+import AssignPanels from "scenes/assignPanel";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
+  const userRole = useSelector((state) => state.global.userRole);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
   return (
     <div className="app">
-    <BrowserRouter>
-    <ThemeProvider theme={theme}>
-        <CssBaseline/>
-        <Routes>
-          <Route element={<Layout/>}>
-            <Route path="/" element ={<Navigate to="/dashboard" repalce/>}/>
-            <Route path="/dashboard" element={<Dashboard/>}/>
-            <Route path="/announcement" element={<Announcement/>}/>
-            <Route path="/managefaculty" element={<ManageFacultys/>}/>
-          </Route>
-        </Routes>
-      </ThemeProvider>
-    </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+
+              {/* For admin and superadmin routes */}
+              {userRole === "admin" || userRole === "superadmin" ? (
+                <>
+                  <Route path="/announcement" element={<Announcement />} />
+                  <Route path="/managefaculty" element={<ManageFacultys />} />
+                  <Route path="/assignmentors" element={<AssignMentors />} />
+                  <Route path="/assignpanels" element={<AssignPanels />} />
+                  
+                </>
+              ) : null}
+
+              {/* For student routes */}
+              {userRole === "student" ? (
+                <Route path="/announcement" element={<Announcement />} />
+              ) : null}
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Route>
+          </Routes>
+        </ThemeProvider>
+      </BrowserRouter>
+    </div>
   );
 }
 

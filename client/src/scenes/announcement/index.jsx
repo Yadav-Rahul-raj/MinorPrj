@@ -11,7 +11,10 @@ import {Box,
      useMediaQuery,
     } from "@mui/material";
 import { useGetAnnouncementQuery } from 'state/api';
+import { useSelector } from "react-redux";
 import Header from "components/Header";
+import Popup from 'components/Popup';
+import Form from 'components/AnnouncementForm';
 
 
 const Announcement = ({
@@ -20,10 +23,11 @@ const Announcement = ({
   description,
   creatorName,
   creatorEmail,
+  creatorRole,
 }) =>{
   const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
-
+  
   return (
     <Card
         sx={{
@@ -71,39 +75,49 @@ const Announcement = ({
 
 const Announcements = () => {
     const theme = useTheme();
+    const [openPopup, setOpenPopup] = useState(false);
     const {data, isLoading} = useGetAnnouncementQuery(); 
     const [hover, setHover] = useState(false);
     const isNonMobile = useMediaQuery("(min-width: 1000px");
+    const userRole = useSelector((state) => state.global.userRole);
 
-    //console.log('data', data[1].creatorName);
-  return (
-      <Box m = "1.5rem 2.5rem">
-      <FlexBetween>
-        <Header title="ANNOUNCEMENT" subtitle="See Latest Announcement at top" />
+    console.log(userRole);
 
-        <Box>
-          <Button className='createbtn'
-                   onMouseEnter={()=>{
-        setHover(true);
-      }}
-      onMouseLeave={()=>{
-        setHover(false);
-      }}
-      style={{
-        ...(hover ? {background: '#3700b3', color:'#bbb'} : null)
-      }}
-            sx={{
-              backgroundColor: theme.palette.secondary[300],
-              color: theme.palette.background.alt,
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            CREATE +
-          </Button>
-        </Box>
-      </FlexBetween>
+
+    // console.log('data', data[1].creatorName);
+      return (
+        <Box m="1.5rem 2.5rem">
+          <FlexBetween>
+            <Header title="ANNOUNCEMENT" subtitle="See Latest Announcement at top" />
+    
+            {userRole !== 'student' && (
+              <Box>
+                <Button
+                  className="createbtn"
+                  onClick={() => setOpenPopup(true)}
+                  onMouseEnter={() => {
+                    setHover(true);
+                  }}
+                  onMouseLeave={() => {
+                    setHover(false);
+                  }}
+                  style={{
+                    ...(hover ? { background: theme.palette.secondary[400] } : null),
+                  }}
+                  sx={{
+                    backgroundColor: theme.palette.secondary[300],
+                    color: theme.palette.background.alt,
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    padding: '10px 20px',
+                  }}
+                >
+                  CREATE +
+                </Button>
+              </Box>
+            )}
+          </FlexBetween>
+    
       {data || !isLoading? (
           <Box 
           mt="20px" 
@@ -131,10 +145,18 @@ const Announcements = () => {
                 creatorEmail={creatorEmail} />
               )
           )}
+          
           </Box>
       ) : (
-        <>Loading...</>
+        <div>Loading...</div>
       )}
+      <Popup
+          title = "Announcement"
+          openPopup = {openPopup}
+          setOpenPopup= {setOpenPopup}
+          >
+          <Form/>
+        </Popup>
     </Box>
   );
 };

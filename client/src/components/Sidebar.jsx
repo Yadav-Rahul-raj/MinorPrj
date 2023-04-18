@@ -40,45 +40,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import profileImage from "assets/profile.jpeg";
 
-const navItems = [
-  {
-    text: "Dashboard",
-    icon: <HomeOutlined/>
-  },
-  {
-    text: "Announcement",
-    icon: <CampaignOutlined/>
-  },
-  
-  {
-    text: "Faculty",
-    icon: null,
-  },
-  {
-    text: "ManageFaculty",
-    icon: <Groups3Outlined/>
-  },
-  {
-    text: "AssignMentors",
-    icon: <GroupOutlined/>
-  },
-  {
-    text: "AssignPanels",
-    icon: <AccessTimeOutlined/>
-  },
-  {
-    text: "Students",
-    icon: null,
-  },
-  {
-    text: "GroupManage",
-    icon: <Groups3Outlined/>
-  },
-  {
-    text: "Submission",
-    icon: <DoneAllOutlined/>
-  },
-];
+
 
 const Sidebar = ({
   user,
@@ -87,6 +49,76 @@ const Sidebar = ({
   setIsSidebarOpen,
   isNonMobile,
 }) => {
+  let navItems = [];
+
+  //Add menu option according to User role
+  if(user.role == 'superadmin' || user.role == 'admin'){
+  navItems = [
+    {
+      text: "Dashboard",
+      icon: <HomeOutlined/>
+    },
+    {
+      text: "Announcement",
+      icon: <CampaignOutlined/>
+    },
+    
+    {
+      text: "Faculty",
+      icon: null,
+    },
+    {
+      text: "ManageFaculty",
+      icon: <Groups3Outlined/>
+    },
+    {
+      text: "AssignMentors",
+      icon: <GroupOutlined/>
+    },
+    {
+      text: "AssignPanels",
+      icon: <AccessTimeOutlined/>
+    },
+    {
+      text: "Students",
+      icon: null,
+    },
+    {
+      text: "GroupManage",
+      icon: <Groups3Outlined/>
+    },
+    {
+      text: "Submission",
+      icon: <DoneAllOutlined/>
+    },
+  ];
+  }
+  if( user.role == 'student')
+  {
+  navItems = [
+    {
+      text: "Dashboard",
+      icon: <HomeOutlined/>
+    },
+    {
+      text: "Announcement",
+      icon: <CampaignOutlined/>
+    },
+    {
+      text: "Students",
+      icon: null,
+    },
+    {
+      text: "GroupManage",
+      icon: <Groups3Outlined/>
+    },
+    {
+      text: "Submission",
+      icon: <DoneAllOutlined/>
+    },
+  ];
+  }
+
   const { pathname } = useLocation();
   const [active, setActive] = useState("");
   const navigate = useNavigate();
@@ -183,7 +215,7 @@ const Sidebar = ({
 
           <Box position="static" bottom="2rem">
             <Divider />
-            <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
+            <FlexBetween textTransform="none" gap="1rem" m="1.5rem 1rem 0 1rem">
               <Box
                 component="img"
                 alt="profile"
