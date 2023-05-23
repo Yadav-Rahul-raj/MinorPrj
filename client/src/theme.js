@@ -1,6 +1,4 @@
 //color design token export
-
-
 export const tokensDark = {
   grey: {
     0:    "#ffffff", // manually adjusted

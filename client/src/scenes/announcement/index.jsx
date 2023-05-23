@@ -26,6 +26,7 @@ const Announcement = ({
   creatorRole,
 }) =>{
   const theme = useTheme();
+  
   const [isExpanded, setIsExpanded] = useState(false);
   
   return (
@@ -79,9 +80,10 @@ const Announcements = () => {
     const {data, isLoading} = useGetAnnouncementQuery(); 
     const [hover, setHover] = useState(false);
     const isNonMobile = useMediaQuery("(min-width: 1000px");
-    const userRole = useSelector((state) => state.global.userRole);
+    const user = useSelector((state) => state.user);
+    const userRole = user.role;
 
-    console.log(userRole);
+    // console.log(userRole);
 
 
     // console.log('data', data[1].creatorName);

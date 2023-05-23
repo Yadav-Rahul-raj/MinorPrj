@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-mongoose.set("strictQuery", false);
+// mongoose.set("strictQuery", false);
 
 const UserSchema = new mongoose.Schema(
     {
@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema(
         country: String,
         occupation: String,
         phoneNumber: String,
+        picturePath: {
+            type: String,
+            default: "",
+        },
         role:{
             type: String,
             enum: ["student", "admin", "superadmin"],

@@ -36,21 +36,21 @@ import {
     PieChartTwoTone
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import { setMode, setLogout } from "state";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import profileImage from "assets/profile.jpeg";
-
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Sidebar = ({
-  user,
   drawerWidth,
   isSidebarOpen,
   setIsSidebarOpen,
   isNonMobile,
 }) => {
   let navItems = [];
-
+const user = useSelector((state) => state.user);
   //Add menu option according to User role
   if(user.role == 'superadmin' || user.role == 'admin'){
   navItems = [
@@ -93,7 +93,7 @@ const Sidebar = ({
     },
   ];
   }
-  if( user.role == 'student')
+  if(user.role == 'student')
   {
   navItems = [
     {
